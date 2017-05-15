@@ -11,6 +11,7 @@ pFolder="/srv/www/htdocs"
 # di webserver kita
 bPath="/var/backups/files"
 bServer=192.168.100.82
+bPort=22
 
 # Waktu sekarang
 date=$(date +"%Y-%m-%d")
@@ -32,11 +33,12 @@ for fd in $fName; do
     echo "Starting to zip the folder and files"
     cd $pFolder
     zip -r $bPath/$file $fd
-
-    # Upload file tadi ke Backup Server
-    echo "Starting to upload the $file to Backup server"
-    rsync -avr --progress $bPath/$file root@$bServer:$bPath
 done
+
+    # Upload file ke Backup Server menggunakan rsync
+    echo "Starting to upload to Backup server"
+    rsync -avhHP --progress --delete-after -r -e "ssh -p $bPort" $bPath/ root@$bServer:$bPath
+    echo "Backup selesai"
 
 # Clear cache. Hanya untuk KVM, Xen 
 # ataupun dedicated server
