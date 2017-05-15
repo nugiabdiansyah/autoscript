@@ -15,6 +15,7 @@ pass=password
 # Tempat menyimpan database
 bPath="/var/backups/databases"
 bServer=192.168.100.82
+bPort=22
 
 # Buat folder bPath diatas jika belum ada
 if [ ! -d $bPath ]; then
@@ -32,12 +33,13 @@ for db in $databases; do
     # Membackup database dengan mysqldump
     echo "Starting to dump the $db database as $file"
     mysqldump --user=$user --password=$pass $db | gzip -9 > $bPath/$file
-
-    # Upload file tadi ke FTP menggunakan CURL
-    echo "Starting to upload the $file to Backup server"
-    rsync -avr --progress $bPath/$file root@$bServer:$bPath
 done
+
+    # Upload file ke Backup Server menggunakan rsync
+    echo "Starting to upload to Backup server"
+    rsync -avhHP --progress --delete-after -r -e "ssh -p $bPort" $bPath/ root@$bServer:$bPath
+    echo "Backup selesai"
 
 # Clear cache. Hanya untuk KVM, Xen 
 # ataupun dedicated server
-free && sync && echo 3 > /proc/sys/vm/drop_caches && echo "" && free
+free -m && sync && echo 3 > /proc/sys/vm/drop_caches && echo "" && free -m
