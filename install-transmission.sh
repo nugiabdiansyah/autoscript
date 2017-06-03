@@ -6,7 +6,7 @@ read -p "$uname's Password: " passw
 
 # Update system and install required packages
 yum -y update
-yum -y install gcc gcc-c++ m4 make automake curl-devel intltool libtool gettext openssl-devel wget
+yum -y install gcc gcc-c++ m4 make automake curl-devel intltool libtool gettext openssl-devel wget httpd
 
 #Create UNIX user and directories for transmission
 encrypt_pass=$(perl -e 'print crypt($ARGV[0], "password")' $passw)
