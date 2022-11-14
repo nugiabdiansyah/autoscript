@@ -3,3 +3,10 @@ deb http://mirror.poliwangi.ac.id/ubuntu/ bionic-updates main restricted univers
 deb http://mirror.poliwangi.ac.id/ubuntu/ bionic-security main restricted universe multiverse
 deb http://mirror.poliwangi.ac.id/ubuntu/ bionic-backports main restricted universe multiverse
 deb http://mirror.poliwangi.ac.id/ubuntu/ bionic-proposed main restricted universe multiverse
+
+#NGINX&PHP
+deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main
+deb http://ppa.launchpad.net/ondrej/nginx-mainline/ubuntu focal main
+
+#MARIADB
+deb [arch=amd64] http://sfo1.mirrors.digitalocean.com/mariadb/repo/10.5/ubuntu focal main
