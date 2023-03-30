@@ -1,7 +1,7 @@
 #!/bin/bash
 apt update
-DATENBANK=postgresql
-if dpkg-query -s $DATENBANK 2>/dev/null|grep -q installed; then
+DATABASE=postgresql
+if dpkg-query -s $DATABASE 2>/dev/null|grep -q installed; then
     apt-mark unhold pgsql*
     apt-mark unhold postgresql*
 else
@@ -12,7 +12,7 @@ apt-mark unhold nginx*
 apt-mark unhold redis*
 apt-mark unhold php*
 apt upgrade -V
-if dpkg-query -s $DATENBANK 2>/dev/null|grep -q installed; then
+if dpkg-query -s $DATABASE 2>/dev/null|grep -q installed; then
     apt-mark hold pgsql*
     apt-mark hold postgresql*
 else
@@ -33,7 +33,7 @@ if [ -d "/var/www/nextcloud/apps/notify_push" ]; then
 sudo chmod ug+x /var/www/nextcloud/apps/notify_push/bin/x86_64/notify_push
 fi
 clear 
-echo -n "Nextcloud Updates [y|n]?"
+echo -n "Do you want to update Nextcloud [y|n]?"
 read answer
 if [ "$answer" != "${answer#[YyjJ]}" ] ;then
 ### privat
@@ -46,7 +46,7 @@ sudo -u www-data php /var/www/nextcloud/occ db:add-missing-columns
 sudo -u www-data php /var/www/nextcloud/occ db:convert-filecache-bigint
 sudo -u www-data sed -i "s/output_buffering=.*/output_buffering=0/" /var/www/nextcloud/.user.ini
 clear 
-echo -n "Would you like to update the Nextcloud Apps [y|n]?"
+echo -n "Would you like to update Nextcloud Apps [y|n]?"
 read answer
 if [ "$answer" != "${answer#[YyjJ]}" ] ;then
         sudo -u www-data php /var/www/nextcloud/occ app:update --all -v
@@ -62,7 +62,7 @@ else
 fi
 clear
 echo "Service are restarted..."
-if dpkg-query -s $DATENBANK 2>/dev/null|grep -q installed; then
+if dpkg-query -s $DATABASE 2>/dev/null|grep -q installed; then
     sudo systemctl restart postgresql.service redis-server.service php8.1-fpm.service nginx.service
 else
     sudo systemctl restart mariadb.service redis-server.service php8.1-fpm.service nginx.service

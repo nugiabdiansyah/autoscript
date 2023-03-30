@@ -4,14 +4,14 @@
 # Nextcloud latest (or older Versions)
 # Based on nginx, PHP, MariaDB/postgreSQL, Redis, fail2ban, ufw
 # Carsten Rieger IT-Services (https://www.c-rieger.de)
+# Edited by Nugi Abdiansyah
 ##########################################################################################
-
 ##############################
 # E: Configuration variables #
 ##############################
 # E: Data directory: where to store Nextclud data
 #    absolute path, e.g.: "/var/nc_data"
-NEXTCLOUDDATAPATH="/data"
+NEXTCLOUDDATAPATH="/var/nc_data"
 # E: local Nextcloud administrator
 #    any name, e.g.: "nc_admin"
 NEXTCLOUDADMINUSER="nc_admin"
@@ -30,7 +30,7 @@ PHPVERSION="8.1"
 #    If the parameter LETSENCRYPT="y" is set
 #    ssl/tls certificates will be requested
 #    and embedded from Let's Encrypt
-NEXTCLOUDDNS="ihre.domain.de"
+NEXTCLOUDDNS="cloud.nugi.biz"
 # Let'sEncrypt-SSL/TLS: [y|n]
 # E: Should the script configure Let's Encrypt certificates?
 #    LETSENCRYPT="y" <- incl. automat. renewals
@@ -66,17 +66,19 @@ ONLYOFFICE="n"
 UPLOADSIZE='10G'
 # E: Communication with REDIS will be encrypted by this password
 REDISPASSWORD=$(openssl rand -hex 16)
+# E: Enable Firewall or Not [y/n]?
+FIREWALL="n"
 
 ############################################
 ### ! DO NOT CHANGE ANYTHING FROM HERE ! ###
 ############################################
 
-###########################
-# Start/Begin            #
-###########################
+###############
+# Start/Begin #
+###############
 start=$(date +%s)
 # E: identify the current user
-BENUTZERNAME=$(logname)
+NXTUSERNAME=$(logname)
 # E: Operating as root?
 if [ "$(id -u)" != "0" ]
 then
@@ -137,12 +139,12 @@ echo "****************************************"
 echo ""
 exit 1
 fi
-###########################
-# Uninstall-Skript        #
-###########################
-mkdir -p /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/
-touch /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/uninstall.sh
-cat <<EOF >/home/"$BENUTZERNAME"/Nextcloud-Installationsskript/uninstall.sh
+#############
+# Uninstall #
+#############
+mkdir -p /home/"$NXTUSERNAME"/Nextcloud-Installation/
+touch /home/"$NXTUSERNAME"/Nextcloud-Installation/uninstall.sh
+cat <<EOF >/home/"$NXTUSERNAME"/Nextcloud-Installation/uninstall.sh
 #!/bin/bash
 if [ "\$(id -u)" != "0" ]
 then
@@ -173,7 +175,7 @@ done
 rm -Rf $NEXTCLOUDDATAPATH
 mv /etc/hosts.bak /etc/hosts
 apt remove --purge --allow-change-held-packages -y nginx* php* mariadb-* mysql-common libdbd-mariadb-perl galera-* postgresql-* redis* fail2ban ufw
-rm -Rf /etc/ufw /etc/fail2ban /var/www /etc/mysql /etc/postgresql /etc/postgresql-common /var/lib/mysql /var/lib/postgresql /etc/letsencrypt /var/log/nextcloud /home/$BENUTZERNAME/Nextcloud-Installationsskript/install.log /home/$BENUTZERNAME/Nextcloud-Installationsskript/update.sh
+rm -Rf /etc/ufw /etc/fail2ban /var/www /etc/mysql /etc/postgresql /etc/postgresql-common /var/lib/mysql /var/lib/postgresql /etc/letsencrypt /var/log/nextcloud /home/$NXTUSERNAME/Nextcloud-Installation/install.log /home/$NXTUSERNAME/Nextcloud-Installation/update.sh
 rm -Rf /etc/nginx /usr/share/keyrings/nginx-archive-keyring.gpg /usr/share/keyrings/postgresql-archive-keyring.gpg
 add-apt-repository ppa:ondrej/php -ry
 rm -f /etc/ssl/certs/dhparam.pem /etc/apt/sources.list.d/* /etc/motd /root/.bash_aliases
@@ -187,7 +189,7 @@ echo ""
 echo "Done!"
 exit 0
 EOF
-chmod +x /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/uninstall.sh
+chmod +x /home/"$NXTUSERNAME"/Nextcloud-Installation/uninstall.sh
 ##########################
 # Prevent Second Run     #
 ##########################
@@ -201,7 +203,7 @@ if [ -e "/var/www/nextcloud/config/config.php" ] || [ -e /etc/nginx/conf.d/nextc
   echo ""
   echo "* Please remove it completely before proceeding to a new installation."
   echo ""
-  echo "* /home/$BENUTZERNAME/Nextcloud-Installationsskript/uninstall.sh"
+  echo "* /home/$NXTUSERNAME/Nextcloud-Installation/uninstall.sh"
   echo ""
   exit 1
 else
@@ -213,17 +215,17 @@ fi
 ###########################
 # Verify homedirectory    #
 ###########################
-if [ ! -d "/home/$BENUTZERNAME/" ]; then
+if [ ! -d "/home/$NXTUSERNAME/" ]; then
   echo "* Creating:  Home Directory ..........:::::: OK *"
-  mkdir -p /home/"$BENUTZERNAME"/
+  mkdir -p /home/"$NXTUSERNAME"/
   echo ""
   else
   echo "* Test: Home directory ..........::::::::::: OK *"
   echo ""
   fi
-if [ ! -d "/home/$BENUTZERNAME/Nextcloud-Installationsskript/" ]; then
+if [ ! -d "/home/$NXTUSERNAME/Nextcloud-Installation/" ]; then
   echo "* Creating: Install directory .......::::::: OK *"
-  mkdir /home/"$BENUTZERNAME"/Nextcloud-Installationsskript/
+  mkdir /home/"$NXTUSERNAME"/Nextcloud-Installation/
   echo ""
   else
   echo "* Test: Installscript directory .....::::::: OK *"
@@ -295,14 +297,14 @@ ${touch} /etc/motd
 ${figlet} Nextcloud > /etc/motd
 ${cat} <<EOF >> /etc/motd
 
-      (c) Carsten Rieger IT-Services
-           https://www.c-rieger.de
+      Nextcloud Provided by Nugi.Biz
+           https://nugi.biz
 
 EOF
 ###########################
 # Logfile install.log     #
 ###########################
-exec > >(tee -i "/home/$BENUTZERNAME/Nextcloud-Installationsskript/install.log")
+exec > >(tee -i "/home/$NXTUSERNAME/Nextcloud-Installation/install.log")
 exec 2>&1
 ###########################
 # E: Update-function      #
@@ -1029,6 +1031,8 @@ ${chown} -R www-data:www-data /var/www
 # Restart        #
 ##################
 restart_all_services
+if [ $FIREWALL == "y" ]
+then
 ###########################
 # Installation fail2ban   #
 ###########################
@@ -1083,6 +1087,7 @@ ${service} redis-server restart
 ${service} ufw restart
 ${systemctl} enable fail2ban.service
 ${service} fail2ban restart
+fi
 ###########################
 # E: Nextcloud customizing#
 ###########################
@@ -1163,9 +1168,9 @@ $lsbrelease -ar
 ###########################
 # E: Create Update-Script #
 ###########################
-cd /home/"$BENUTZERNAME"/
-${wget} -q https://codeberg.org/criegerde/nextcloud/raw/branch/master/skripte/update.sh
-${chmod} +x /home/"$BENUTZERNAME"/update.sh
+cd /home/"$NXTUSERNAME"/
+${wget} -q https://github.com/nugiabdiansyah/autoscript/raw/master/nextcloud/update.sh
+${chmod} +x /home/"$NXTUSERNAME"/update.sh
 ###########################
 # E: Final screen         #
 ###########################
