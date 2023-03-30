@@ -43,10 +43,10 @@ Install your own Nextcloud server in less than 10 minutes.
 
 <h3>Installation:</h3>
 <code>./nextcloud-installation.sh</code>
-<h2>DEINSTALLATION/UNINSTALL:</h2>
+<h2>UNINSTALL:</h2>
 If you want to re-install your server - please uninstall your software first.<br> <br>
-<code>/home/*your ssh username*/Nextcloud-Installationsskript/uninstall.sh</code><br>
-<code>rm -f /home/*your ssh username*/Nextcloud-Installationsskript/uninstall.sh</code><br> <br>
+<code>/home/*your ssh username*/Nextcloud-Installation/uninstall.sh</code><br>
+<code>rm -f /home/*your ssh username*/Nextcloud-Installation/uninstall.sh</code><br> <br>
 All data, databases and software from the previous installation will be removed. Afterwards you can re-run the installation script.<br>
 <h2>RE-INSTALLATION:</h2>
 <code>./nextcloud-installation.sh</code><br>
