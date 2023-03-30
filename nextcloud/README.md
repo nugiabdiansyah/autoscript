@@ -18,8 +18,8 @@ Install your own Nextcloud server in less than 10 minutes.
 <h3>Create User:</h3>
 <code>su -
 apt install -y sudo
-adduser nugiabdiansyah
-usermod -aG sudo nugiabdiansyah
+adduser deploy
+usermod -aG sudo deploy
 exit</code>
 <h3>Preparations:</h3>
 !!! DO NOT USE ROOT AS SSH !!!<br>
@@ -52,13 +52,13 @@ exit</code>
 <code>./nextcloud-installation.sh</code>
 <h2>UNINSTALL:</h2>
 If you want to re-install your server - please uninstall your software first.<br> <br>
-<code>/home/nugiabdiansyah/Nextcloud-Installation/uninstall.sh</code><br>
-<code>rm -f /home/nugiabdiansyah/Nextcloud-Installation/uninstall.sh</code><br> <br>
+<code>/home/deploy/Nextcloud-Installation/uninstall.sh</code><br>
+<code>rm -f /home/deploy/Nextcloud-Installation/uninstall.sh</code><br> <br>
 All data, databases and software from the previous installation will be removed. Afterwards you can re-run the installation script.<br>
 <h2>RE-INSTALLATION:</h2>
 <code>./nextcloud-installation.sh</code><br>
 <h2>LOGFILE:</h2>
-<code>vi /home/nugiabdiansyah/Nextcloud-Installation/install.log</code><br>
+<code>cat /home/deploy/Nextcloud-Installation/install.log</code><br>
 
 ---
 
