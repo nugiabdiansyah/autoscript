@@ -17,7 +17,6 @@ Install your own Nextcloud server in less than 10 minutes.
 <h2>INSTALLATION (Ubuntu/Debian):</h2>
 <h3>Preparations:</h3>
 <code>sudo -s</code><br>
-<code>apt install -y git</code><br>
 <code>wget -c https://github.com/nugiabdiansyah/autoscript/raw/master/nextcloud/nextcloud-installation.sh</code><br>
 <code>chmod +x nextcloud-installation.sh</code><br> <br>
 <h3>Modify configuration variables:</h3></code>
@@ -25,7 +24,7 @@ Install your own Nextcloud server in less than 10 minutes.
 <code>NEXTCLOUDDATAPATH="/var/nc_data"</code><br>
 <code>NEXTCLOUDADMINUSER="nugiabdiansyah"</code><br>
 <code>NEXTCLOUDADMINUSERPASSWORD=$(openssl rand -hex 16)</code><br>
-<code>NCRELEASE="latest.tar.bz2"</code><br>
+<code>NCRELEASE="latest-25.tar.bz2"</code><br>
 <code>PHPVERSION="8.1"</code><br>
 <code>NEXTCLOUDDNS="cloud.nugi.biz"</code><br>
 <code>LETSENCRYPT="n"</code><br>
@@ -40,6 +39,7 @@ Install your own Nextcloud server in less than 10 minutes.
 <code>ONLYOFFICE="n"</code><br>
 <code>UPLOADSIZE='10G'</code><br>
 <code>REDISPASSWORD=$(openssl rand -hex 16)</code><br>
+<code>FIREWALL="n"</code><br>
 
 <h3>Installation:</h3>
 <code>./nextcloud-installation.sh</code>
