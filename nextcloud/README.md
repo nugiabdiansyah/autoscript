@@ -15,8 +15,13 @@ Install your own Nextcloud server in less than 10 minutes.
 - etc...
 
 <h2>INSTALLATION (Ubuntu/Debian):</h2>
+<h3>Create User:</h3>
+<code>su -
+apt install -y sudo
+adduser nugiabdiansyah
+usermod -aG sudo nugiabdiansyah
+exit</code>
 <h3>Preparations:</h3>
-Login ubuntu server with default username, if no one, please create with sudoers<br>
 !!! DO NOT USE ROOT AS SSH !!!<br>
 <code>sudo -s</code><br>
 <code>wget -c https://github.com/nugiabdiansyah/autoscript/raw/master/nextcloud/nextcloud-installation.sh</code><br>
@@ -47,13 +52,13 @@ Login ubuntu server with default username, if no one, please create with sudoers
 <code>./nextcloud-installation.sh</code>
 <h2>UNINSTALL:</h2>
 If you want to re-install your server - please uninstall your software first.<br> <br>
-<code>/home/*username*/Nextcloud-Installation/uninstall.sh</code><br>
-<code>rm -f /home/*username*/Nextcloud-Installation/uninstall.sh</code><br> <br>
+<code>/home/nugiabdiansyah/Nextcloud-Installation/uninstall.sh</code><br>
+<code>rm -f /home/nugiabdiansyah/Nextcloud-Installation/uninstall.sh</code><br> <br>
 All data, databases and software from the previous installation will be removed. Afterwards you can re-run the installation script.<br>
 <h2>RE-INSTALLATION:</h2>
 <code>./nextcloud-installation.sh</code><br>
 <h2>LOGFILE:</h2>
-<code>nano /home/*username*/Nextcloud-Installation/install.log</code><br>
+<code>vi /home/nugiabdiansyah/Nextcloud-Installation/install.log</code><br>
 
 ---
 
