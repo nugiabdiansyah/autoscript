@@ -1020,7 +1020,7 @@ ${cat} <<EOF >>/var/www/nextcloud/config/tweaks.config.php
         'dbindex' => 1,
         ),
         'quota_include_external_storage' => false,
-        'share_folder' => '/Freigaben',
+        'share_folder' => '/Shares',
         'skeletondirectory' => '',
         'trashbin_retention_obligation' => 'auto, 7',
         );
