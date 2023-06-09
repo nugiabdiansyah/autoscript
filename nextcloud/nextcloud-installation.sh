@@ -461,7 +461,7 @@ events {
   use epoll;
   }
 http {
-  log_format criegerde escape=json
+  log_format nugibiz escape=json
   '{'
     '"time_local":"\$time_local",'
     '"remote_addr":"\$remote_addr",'
@@ -474,7 +474,7 @@ http {
     '"http_user_agent":"\$http_user_agent"'
   '}';
   server_names_hash_bucket_size 64;
-  access_log /var/log/nginx/access.log criegerde;
+  access_log /var/log/nginx/access.log nugibiz;
   error_log /var/log/nginx/error.log warn;
   #set_real_ip_from 127.0.0.1;
   real_ip_header X-Forwarded-For;
