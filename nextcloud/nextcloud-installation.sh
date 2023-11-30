@@ -24,7 +24,7 @@ NEXTCLOUDADMINUSERPASSWORD=$(openssl rand -hex 16)
 #    or the current/latest (latest.tar.bz2) release:
 #    Nextcloud < 24 is not compatible with PHP8.1
 #    if less than Nextcloud 24, set PHPVERSION="8.0"
-NCRELEASE="latest-25.tar.bz2"
+NCRELEASE="latest.tar.bz2"
 PHPVERSION="8.1"
 # E: Your Nextcloud daomain without (!) https
 #    If the parameter LETSENCRYPT="y" is set
@@ -416,10 +416,10 @@ then
 		then
 		wget https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
 		chmod +x mariadb_repo_setup
-		./mariadb_repo_setup --mariadb-server-version="mariadb-10.8"
+		./mariadb_repo_setup --mariadb-server-version="mariadb-10.11"
 		else
 		wget -O- https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mariadb-keyring.gpg >/dev/null
-    echo "deb [signed-by=/usr/share/keyrings/mariadb-keyring.gpg] https://download.nus.edu.sg/mirror/mariadb/repo/10.8/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mariadb.list
+    echo "deb [signed-by=/usr/share/keyrings/mariadb-keyring.gpg] https://download.nus.edu.sg/mirror/mariadb/repo/10.11/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/mariadb.list
 	fi
 else
     wget  -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | sudo tee /usr/share/keyrings/postgresql-archive-keyring.gpg >/dev/null
